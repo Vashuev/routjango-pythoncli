@@ -1,8 +1,9 @@
 import sys
 import re
 
-# getting the project name
+# getting the project name and template name
 project_name = sys.argv[1]
+template_name = sys.argv[2]
 
 # open the settings.py file and save it into a setting_data variable
 try:
@@ -14,11 +15,24 @@ except:
     exit(1)
 
 # matching the regrex 
-string_to_search = "INSTALLED_APPS = \[\n"
-string_to_subtitute = "INSTALLED_APPS = [\n\t'srv.apps.SrvConfig',\n"
+string1_to_search = "from pathlib import Path\n"
+string1_to_subtitute = "from pathlib import Path\nimport os\n"
+string2_to_search = "INSTALLED_APPS = \[\n"
+string2_to_subtitute = "INSTALLED_APPS = [\n\t'srv.apps.SrvConfig',\n"
+string3_to_search = "'DIRS': \[\]"
+string3_to_subtitute = str(f"'DIRS': [os.path.join(BASE_DIR, '{template_name}')]")
 
-regex = re.compile(string_to_search)
-setting_data = regex.sub(string_to_subtitute, setting_data)
+# subtituting first string
+regex = re.compile(string1_to_search)
+setting_data = regex.sub(string1_to_subtitute, setting_data)
+
+# subtituting first string
+regex = re.compile(string2_to_search)
+setting_data = regex.sub(string2_to_subtitute, setting_data)
+
+# subtituting first string
+regex = re.compile(string3_to_search)
+setting_data = regex.sub(string3_to_subtitute, setting_data)
 
 # open the settings.py file and writing the app configuration into it
 try:
@@ -30,7 +44,6 @@ except:
     print("  ERROR : Unable to open setting.py file to write it's content file")
     exit(1)
 
-print("App has registered in the setting.py file fo Django Project")
 
 
 

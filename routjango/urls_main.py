@@ -43,7 +43,6 @@ except:
     print(f"  ERROR : Unable to open urls.py in {project_name} directory to write it's content")
     exit(1)
 
-print(f"route has build to {project_name} with srv-app")
 
 # adding views import in urls_for_url variable
 string_to_search = "from django.contrib import admin"
@@ -64,7 +63,7 @@ try:
         fp.write(urls_for_url)
     fp.close()
 except:
-    print("  ERROR : Unable to open urls.py in srv directory to write it's content")
+    print("  ERROR : Unable to open urls.py in srv directory to write initial content")
     exit(1)
 
 
