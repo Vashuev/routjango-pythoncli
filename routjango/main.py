@@ -1,6 +1,5 @@
 import os
 
-
 # it will ask for project_name and templates_folder
 project_name = input("Enter the project_name : ")
 templates_folder = input("Enter the templates_folder: ")

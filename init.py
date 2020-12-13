@@ -11,7 +11,7 @@ sio = socketio.AsyncClient(reconnection=False)
 async def connect():
     try:
         print('connected to server')
-        # os.system(f"python main.py")
+        os.system(f"python routjango\main.py")
     except:
         print("  ERROR : Unable to call main.py file")
 
@@ -33,7 +33,7 @@ def message(msg):
 
 
 async def start_server(roomid):
-    await sio.connect(f'https://codr-front-server.herokuapp.com/?roomId=af7e3463-0168-4860-a016-648718b97dc0&clientType=cli')
+    await sio.connect(f'https://codr-front-server.herokuapp.com/?roomId={roomid}&clientType=cli')
     await sio.wait()
 
 
