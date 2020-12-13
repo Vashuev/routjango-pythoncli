@@ -1,54 +1,50 @@
+import asyncio
+import socketio
 import os
+import requests
+import json
 
-# it will ask for project_name and templates_folder
-project_name = input("Enter the project_name : ")
-templates_folder = input("Enter the templates_folder: ")
+sio = socketio.AsyncClient(reconnection=False)
 
-# making a django project 
-if os.path.exists(f"Destination\{project_name}") == True:
-    print(f" ERROR: Already have a project with this name : {project_name}")
-    print("        Please try again with different project name..")
-    exit(0)
 
-# checking the template folder's name
-if templates_folder.lower() == "views":
-    print(f" ERROR: Cannot make a folder with name : {templates_folder}")
-    print("        Please try again with different template name..")
-    exit(0)
-
-# making a Destination directory
-if os.path.exists("Destination") == False:
+@sio.event
+async def connect():
     try:
-        os.system("mkdir Destination")
+        print('connected to server')
+        # os.system(f"python main.py")
     except:
-        print("  ERROR : Unable to make Destination directory")
-        exit(1)
+        print("  ERROR : Unable to call main.py file")
 
-# calling django_init.py file for making all the basic structure
-try:
-    os.system(f"python routjango\django_init.py {project_name} {templates_folder}")
-except:
-    print("  ERROR : Unable to call routjango\django_init.py file")
-    exit(1)
 
-# making routes
-try:
-    os.system(f"python routjango\\routes.py {project_name} {templates_folder}")
-    print(f"routes has build for the {project_name}..")
-except:
-    print(f"  ERROR : Unable to call routjango\routes.py file")
-    exit(1)
+@sio.event
+async def disconnect():
+    # print('disconnected from server\nDo you want to reconnect?')
+    print('disconnected from server\nPlease exit with CTRL+BREAK and restart the script')
 
-# # starting runserver
-# try:
-#     os.system(f"cd Destination\{project_name} && python manage.py runserver")
-#     print(f"Server has started, Please open the localhost http://127.0.0.1:8000/ ")
-# except:
-#     print(f" ERROR: Unable to run server..")
+@sio.event
+async def error():
+    print('error from server\nDisconnecting from server')
+    sio.disconnect()
 
-# # making a superuser
-# try:
-#     os.system(f"cd Destination\{project_name} && python manage.py createsuperuser")
-#     print(f"SuperUser has created")
-# except:
-#     print(f"  ERROR : Unable to create superuser..")
+
+@sio.event
+def message(msg):
+    print(f'message from server{msg}')
+
+
+async def start_server(roomid):
+    await sio.connect(f'https://codr-front-server.herokuapp.com/?roomId=af7e3463-0168-4860-a016-648718b97dc0&clientType=cli')
+    await sio.wait()
+
+
+if __name__ == '__main__':
+    response = requests.post('https://codr-front-server.herokuapp.com/login')
+    if response.status_code == 200:
+        content = response.json()
+        # print(content)
+        roomid = content["roomId"]
+        # print(roomid)
+        asyncio.run(start_server(roomid))
+    else:
+        print("Failed to connect")
+    
