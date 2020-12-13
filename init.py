@@ -2,14 +2,21 @@ import asyncio
 import socketio
 import os
 import requests
+import webbrowser
+import json
+from routjango.main import intitialize_project
+from routjango.routes import create_routes
 
 sio = socketio.AsyncClient(reconnection=False)
+server_url = 'https://codr-front-server.herokuapp.com/'
+webpage_url = 'https://code-front.vercel.app/'
 
 
 @sio.event
 async def connect():
     try:
         print('connected to server')
+        webbrowser.open_new_tab(f'{webpage_url}?roomId={roomid}')
         os.system(f"python routjango\main.py")
     except:
         print("  ERROR : Unable to call main.py file")
@@ -30,14 +37,19 @@ async def error():
 def message(msg):
     print(f'message from server{msg}')
 
+@sio.event
+def appJsonData(json_data):
+    create_routes(project_name, json.loads(json_data))
+
 
 async def start_server(roomid):
-    await sio.connect(f'https://codr-front-server.herokuapp.com/?roomId={roomid}&clientType=cli')
+    await sio.connect(f'{server_url}?roomId={roomid}&clientType=cli')
     await sio.wait()
 
 
 if __name__ == '__main__':
-    response = requests.post('https://codr-front-server.herokuapp.com/login')
+    project_name = intitialize_project()
+    response = requests.post(f'{server_url}login')
     if response.status_code == 200:
         content = response.json()
         # print(content)
