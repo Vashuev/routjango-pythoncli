@@ -1,0 +1,94 @@
+{
+    "routes":[
+        {
+            "path": "home",
+            "type": "render",
+            "render_path": "index.html",
+            "redirect_path": "",
+            "request_method": "POST",
+            "form_data": ["email", "username"],
+            "json_data": {"todo_items": "todo_items"}
+        },
+        {
+            "path": "add_on/save/<int:task_id>",
+            "type": "render",
+            "render_path": "add_on.html",
+            "request_method": "GET",
+            "form_data": ["email", "username"],
+            "redirect_path": "",
+            "json_data": ""
+        },
+        {
+            "path": "add_on/cancel",
+            "type": "redirect",
+            "render_path": "",
+            "redirect_path": "/",
+            "request_method": "POST",
+            "form_data": [],
+            "json_data": ""
+        },
+        {
+            "path": "add_on/save",
+            "type": "redirect",
+            "render_path": "",
+            "redirect_path": "/",
+            "request_method": "DELETE",
+            "form_data": [],
+            "json_data": ""
+        },
+        {
+            "path": "delete/<int:task_id>",
+            "type": "redirect",
+            "render_path": "",
+            "redirect_path": "/",
+            "request_method": "PUT",
+            "form_data": [],
+            "json_data": ""
+        },
+        {
+            "path": "update/<int:task_id>",
+            "type": "render",
+            "render_path": "update.html",
+            "redirect_path": "",
+            "request_method": "PUT",
+            "form_data": ["email", "username"],
+            "json_data": {"id": "task_id","cur_title": "cur_title", "cur_description": "cur_description"}
+        },
+        {
+            "path": "update/back",
+            "type": "redirect",
+            "render_path": "",
+            "redirect_path": "/",
+            "request_method": "POST",
+            "form_data": [],
+            "json_data": ""
+        },
+        {
+            "path": "update/edit/<int:task_id>",
+            "type": "redirect",
+            "render_path": "",
+            "redirect_path": "/",
+            "request_method": "POST",
+            "form_data": [],
+            "json_data": ""
+        },
+        {
+            "path": "update/<int:roll>/edit/<int:task_id>",
+            "type": "redirect",
+            "render_path": "",
+            "redirect_path": "/",
+            "request_method": "GET",
+            "form_data": [],
+            "json_data": ""
+        },
+        {
+            "path": "fetch_details",
+            "type": "api",
+            "render_path": "",
+            "redirect_path": "",
+            "request_method": "POST",
+            "form_data": ["email", "username"],
+            "json_data": {"name": "Rohit Bisht", "qualification": "BCA", "phone":"8076632541", "email": "rohitbst.104764@gmail.com"}
+        }
+    ]
+}
