@@ -35,6 +35,8 @@ def create_routes(project_name, json_data):
 
     for route in routes:
         path = route["path"]
+        # remove prefix '/' from route path
+        path = path[1:] if path[0] == '/' else path
         route_type = route["type"]
 
         url_field, fullpath, parameters = path_maker(path)
