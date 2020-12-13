@@ -30,10 +30,11 @@ fp.close()
 routes = routes_data["routes"]
 
 # urlpatterns list for the url.py file
-urlpatterns = "\nurlpatterns = [\n"
+urlpatterns = "\nurlpatterns = [\n# comment the below route to if you don't want to render the django_site page\n\tpath('', views.django_site, name='django_site'),\n"
 
 # viewsfunction list for the views.py file
 viewsfunctions = "from django.shortcuts import render\nfrom django.http import HttpResponseRedirect, HttpResponse\n" 
+viewsfunctions += "\n# Please comment the django_site function stop it rendering on route: 127.0.0.8080/\ndef django_site(request):\n\treturn render(request, 'django_site.html')\n\n"
 
 for route in routes:
     path = route["path"]

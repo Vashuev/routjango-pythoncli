@@ -3,7 +3,7 @@ import re
 
 # getting the project name and template name
 project_name = sys.argv[1]
-template_name = sys.argv[2]
+templates_folder = sys.argv[2]
 
 # open the settings.py file and save it into a setting_data variable
 try:
@@ -20,7 +20,7 @@ string1_to_subtitute = "from pathlib import Path\nimport os\n"
 string2_to_search = "INSTALLED_APPS = \[\n"
 string2_to_subtitute = "INSTALLED_APPS = [\n\t'srv.apps.SrvConfig',\n"
 string3_to_search = "'DIRS': \[\]"
-string3_to_subtitute = str(f"'DIRS': [os.path.join(BASE_DIR, '{template_name}')]")
+string3_to_subtitute = str(f"'DIRS': [os.path.join(BASE_DIR, '{templates_folder}')]")
 
 # subtituting first string
 regex = re.compile(string1_to_search)
