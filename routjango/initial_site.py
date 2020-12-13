@@ -4,9 +4,21 @@ import sys
 project_name = sys.argv[1]
 templates_folder = sys.argv[2]
 
-html_data = '<!DOCTYPE html>\n<html>\n\t<head>\n\t\t<title>Django Site</title>\n\t\t<meta charset="UTF-8">\n\t\t<meta name="viewport" content="width=device-width, initial-scale=1.0">\n\t</head>\n\t<body>\n\t\t<nav class="navbar navbar-expand-lg navbar-dark bg-primary">\n\t\t<a class="navbar-brand" href="#">TODO LIST</a>\n\t\t</nav>\n\t<h2>Django Initial Page</h2>\n\t</body>\n</html>'
+# opening django_site.html 
+try:
+    with open("routjango\django_site.html", 'r') as fp:
+        page_source = fp.read()
+    fp.close()
+except:
+    print("  ERROR : Unable to read django_site.html page source")
+    page_source = "<h2> DJANGO SITE</h2>\n<p> this page is showing because the django_site couldn't read</p>"
 
-# making a django_site.html page
-with open(f"Destination\{project_name}\{templates_folder}\django_site.html", "w") as fp:
-    fp.write(html_data)
-fp.close()
+# making a django_site.html in template
+try:
+    with open(f"Destination\{project_name}\{templates_folder}\django_site.html", "w") as fp:
+        fp.write(page_source)
+    fp.close()
+except:
+    print(f"  ERROR : Unable to write content in {templates_folder}django_site.html")
+    
+    
