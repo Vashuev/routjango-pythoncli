@@ -2,7 +2,6 @@ import asyncio
 import socketio
 import os
 import requests
-import json
 
 sio = socketio.AsyncClient(reconnection=False)
 
