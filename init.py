@@ -3,6 +3,9 @@ import socketio
 import os
 import requests
 import webbrowser
+import json
+from routjango.main import intitialize_project
+from routjango.routes import create_routes
 
 sio = socketio.AsyncClient(reconnection=False)
 server_url = 'https://codr-front-server.herokuapp.com/'
@@ -34,6 +37,10 @@ async def error():
 def message(msg):
     print(f'message from server{msg}')
 
+@sio.event
+def appJsonData(json_data):
+    create_routes(project_name, json.loads(json_data))
+
 
 async def start_server(roomid):
     await sio.connect(f'{server_url}?roomId={roomid}&clientType=cli')
@@ -41,6 +48,7 @@ async def start_server(roomid):
 
 
 if __name__ == '__main__':
+    project_name = intitialize_project()
     response = requests.post(f'{server_url}login')
     if response.status_code == 200:
         content = response.json()
